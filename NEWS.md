@@ -1,4 +1,4 @@
-# pgsmetrics 0.0.0.9000
+# pgsmetrics 0.0.9
 
 ## testing
 
