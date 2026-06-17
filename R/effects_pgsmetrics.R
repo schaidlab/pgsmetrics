@@ -5,6 +5,7 @@
 #' @param dep Character. Name of the dependent variable in `data`. Binary variable must be 0/1 (otherwise continuous assumed).
 #' @param covars Character vector. Names of covariate to adjust for. Must be in columns in `data`.
 #' @param missing Warns if missing values in `data`. Use missing="drop" to drop rows with missing values. However, we recommend imputing missing values instead. Default: "warn".
+#' @param report_covars Logical. Include all covariate effects in returned data.frame
 #'
 #' @return A data.frame with calculated covariate-adjusted effect size of PGS. 
 #'   \item{coef_table}{A data.frame with calculated covariate-adjusted effect size of PGS.}
@@ -14,7 +15,7 @@
 #' data <- simulate_data(n = 1000, n_pgs = 3)
 #'
 #' # raw PGS coefficients 
-#' coef_table <- coef.pgsmetrics(data,
+#' coef_table <- effects_pgsmetrics(data,
 #'     pgs = c("pgs1", "pgs2", "pgs3"),
 #'     dep = "y_bin",
 #'     covars = c("age", "sex")
@@ -24,13 +25,14 @@
 #' # Obtain coefficients for top decile of PGS
 #' data$pgs1.top10 <- 1*(data$pgs1 >= quantile(data$pgs1, 0.9, na.rm = TRUE))
 #' 
-#' coef <- coef.pgsmetrics(data, 
+#' coef <- effects_pgsmetrics(data, 
 #'     pgs = c("pgs1", "pgs1.top10"), 
 #'     dep = "y_bin", 
 #'     covars = c("age", "sex"),
 #'  )
 #' # print(coef)
 #' 
+#' @importFrom stats as.formula glm
 #' @export
 effects_pgsmetrics <- function(
     data,
@@ -88,11 +90,11 @@ effects_pgsmetrics <- function(
 
   for(i in 1:npgs){
     
-    full_pgs <- as.formula(
+    full_pgs <- stats::as.formula(
       paste(dep, "~", paste(c(covars, pgs[i]) , collapse = " + "))
     )
     
-    fit_full <- glm(full_pgs, data=data, family=fam)
+    fit_full <- stats::glm(full_pgs, data=data, family=fam)
     if(report_covars) {
       index <- which(grepl(paste(c(pgs[i], covars), collapse="|"), names(fit_full$coefficients)))
     } else {
@@ -107,7 +109,8 @@ effects_pgsmetrics <- function(
     ct$Term <- rownames(ct)
     rownames(ct) <- NULL
     ct$Model <- pgs[i]
-    
+    # Put Model & Term first
+    ct <- ct[, c("Model", "Term", setdiff(names(ct), c("Model", "Term")))]
     coef_list[[i]] <- ct
   }
   coef_table <- do.call('rbind', coef_list) 
