@@ -50,6 +50,8 @@ pgsmetrics(
 \item{missing}{Warns if missing values in \code{data}. Use missing="drop" to drop rows with missing values. However, we recommend imputing missing values instead. Default: "warn".}
 
 \item{return_boot_stats}{Return bootstrap output before processing (for debugging). Default: FALSE.}
+
+\item{custom_metrics_list}{List of custom metrics to be summarized.}
 }
 \value{
 An object of class "pgsmetrics" containing:

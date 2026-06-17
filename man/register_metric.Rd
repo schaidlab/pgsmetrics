@@ -8,6 +8,8 @@ Register a new metric}
 register_metric(metrics_list, name, fn, type, description)
 }
 \arguments{
+\item{metrics_list}{List of metrics}
+
 \item{name}{Character. Name of the metric.}
 
 \item{fn}{Function. The metric calculation function.}
