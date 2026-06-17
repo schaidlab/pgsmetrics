@@ -18,6 +18,7 @@
 #' @param n_cores Integer. Number of cores for parallel processing. Default is 1.
 #' @param missing Warns if missing values in `data`. Use missing="drop" to drop rows with missing values. However, we recommend imputing missing values instead. Default: "warn".
 #' @param return_boot_stats Return bootstrap output before processing (for debugging). Default: FALSE.
+#' @param custom_metrics_list List of custom metrics to be summarized. 
 #'
 #' @return An object of class "pgsmetrics" containing:
 #'   \item{metrics}{A data.table with calculated metrics for each PGS. In this data.table, `type` can be partial/full/cov, where partial=full-cov, full=model with covariates+pgs, cov=model with only covariates. When using `boot_method="blb"`, the `observed` column is the median value of the metric statistic, but when using `boot_method="standard"`, it is the value from an analysis on the unmodified dataset.}

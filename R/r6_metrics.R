@@ -71,6 +71,7 @@ Metric <- R6::R6Class("Metric",
 
 #' Register a new metric
 #'
+#' @param metrics_list List of metrics
 #' @param name Character. Name of the metric.
 #' @param fn Function. The metric calculation function.
 #' @param type binary/continuous/both.
@@ -84,6 +85,7 @@ register_metric <- function(metrics_list, name, fn, type, description) {
 
 #' Filter a list of metrics by type
 #'
+#' @param metrics_list List of metrics
 #' @param model_type binary/continuous/both.
 #' @return A list of all registered metrics.
 #' @export
