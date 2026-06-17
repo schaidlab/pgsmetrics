@@ -7,6 +7,8 @@
 filter_metrics(metrics_list, model_type)
 }
 \arguments{
+\item{metrics_list}{List of metrics}
+
 \item{model_type}{binary/continuous/both.}
 }
 \value{
