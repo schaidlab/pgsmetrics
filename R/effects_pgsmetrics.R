@@ -32,9 +32,6 @@
 #' # print(coef)
 #' 
 #' @export
-
-require(tidyverse)
-
 effects_pgsmetrics <- function(
     data,
     pgs,
@@ -103,14 +100,17 @@ effects_pgsmetrics <- function(
     }
 
     ##  Extract terms & add columns for model (PGS name) & all terms
-    ct <- summary(fit_full)$coefficients[index, , drop = FALSE] %>%
-      as.data.frame() %>% 
-      tibble::rownames_to_column("Term") %>%
-      mutate(Model = pgs[i])
+    ct <- as.data.frame(
+      summary(fit_full)$coefficients[index, , drop = FALSE]
+    )
+    
+    ct$Term <- rownames(ct)
+    rownames(ct) <- NULL
+    ct$Model <- pgs[i]
+    
     coef_list[[i]] <- ct
   }
-  coef_table <- do.call('rbind', coef_list) %>%
-    dplyr::select(Model, Term, everything())
+  coef_table <- do.call('rbind', coef_list) 
   
   return(coef_table)
 }
