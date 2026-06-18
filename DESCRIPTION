@@ -1,6 +1,6 @@
 Package: pgsmetrics
 Title: Functions To Compute Metrics for Polygenic Risk Scores and Compare Them
-Version: 0.0.9
+Version: 0.1.0
 Authors@R: 
     person("Kristjan", "Norland", , "kristjannorland@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "https://orcid.org/0009-0009-3418-119X"))
